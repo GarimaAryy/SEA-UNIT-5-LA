@@ -116,28 +116,52 @@ Therefore, PWA provides a balance between accessibility, performance, cost, and 
 * Providing reliable notifications across supported platforms.
 
 ### 6\. Simple Application Workflow Diagram
-
-The following diagram represents the working process of the online canteen food-ordering system.
-
-mermaid
-
-flowchart TD
-    A([Start]) --> B[Student Opens PWA]
-    B --> C[Browse Food Menu]
-    C --> D[Select Food Items]
-    D --> E[Add Items to Cart]
-    E --> F[Place Order]
-    F --> G[Make Online Payment]
-    G --> H{Payment Successful?}
-    H -->|No| I[Retry Payment]
-    I --> G
-    H -->|Yes| J[Order Confirmation]
-    J --> K[Canteen Receives Order]
-    K --> L[Prepare Food]
-    L --> M[Update Status to Ready]
-    M --> N[Send Push Notification]
-    N --> O[Student Collects Order]
-    O --> P([End])
++-------------------------------------------------------------------+
+|                        STUDENT (PWA Client)                       |
++-------------------------------------------------------------------+
+                                 |
+                                 v
+               [1. Open PWA via URL / QR Code & Login]
+                                 |
+                                 v
+            [2. Browse Live Menu & Add Items to Cart]
+                                 |
+                                 v
+                  [3. Review Order & Checkout]
+                                 |
+                                 v
+             [4. Make Digital Payment (UPI / Card)]
+                                 |
+                 +---------------+---------------+
+                 | (Payment Failed)              | (Payment Success)
+                 v                               v
+     [Show Error / Retry]          [Generate Order ID & Digital Token]
+                                                 |
+                                                 v
++-------------------------------------------------------------------+
+|                   BACKEND SERVER & DATABASE                       |
+|        (Verify Payment -> Update Stock -> Route to Kitchen)       |
++-------------------------------------------------------------------+
+                                 |
+                                 v
++-------------------------------------------------------------------+
+|                  CANTEEN KITCHEN DASHBOARD                        |
++-------------------------------------------------------------------+
+                                 |
+                                 v
+           [5. Kitchen Receives Order -> Status: "Preparing"]
+                                 |
+                                 v
+          [6. Food Prepared -> Staff Marks "Ready for Pickup"]
+                                 |
+                                 v
+             [7. Server Triggers Push Notification to Student]
+                                 |
+                                 v
+      [8. Student Shows Digital Token at Counter & Collects Food]
+                                 |
+                                 v
+              [9. Staff Marks Order as "Completed"]
 
 
 ### 7\. Conclusion
